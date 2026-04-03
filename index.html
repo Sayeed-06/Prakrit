@@ -1,0 +1,273 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Supply Chain Predictive Dashboard - April 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+        }
+
+        .risk-glow-red { 
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.15); 
+            border-color: rgba(239, 68, 68, 0.5); 
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(127, 29, 29, 0.2));
+        }
+        
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        .scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 8px #3b82f6;
+            animation: scan 3s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="p-4 lg:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+                    <div class="relative">
+                        <svg class="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </div>
+                    Intelligence Report: Q2-2026 Thermal Shortage
+                </h1>
+                <p class="text-slate-500 mt-1 uppercase text-xs tracking-widest mono">Node: Dhanbad-Asansol Mining Cluster | Grid: Eastern Region (ER)</p>
+            </div>
+            
+            <div class="flex gap-4">
+                <div class="glass-panel px-6 py-3 text-center">
+                    <p class="text-[10px] text-slate-500 uppercase font-bold">Alert Level</p>
+                    <p class="text-xl font-bold text-red-500 animate-pulse">CRITICAL</p>
+                </div>
+                <div class="glass-panel px-6 py-3 text-center">
+                    <p class="text-[10px] text-slate-500 uppercase font-bold">Confidence</p>
+                    <p class="text-xl font-bold text-emerald-500">92%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="glass-panel p-4 border-t-2 border-blue-500">
+                <p class="text-xs text-slate-500 font-bold uppercase">Avg. Depot Days</p>
+                <p class="text-2xl font-bold mono">6.4 <span class="text-sm font-normal text-red-500">↓ 12%</span></p>
+            </div>
+            <div class="glass-panel p-4 border-t-2 border-orange-500">
+                <p class="text-xs text-slate-500 font-bold uppercase">Rail Rake TAT</p>
+                <p class="text-2xl font-bold mono">118h <span class="text-sm font-normal text-red-500">↑ 18%</span></p>
+            </div>
+            <div class="glass-panel p-4 border-t-2 border-red-500">
+                <p class="text-xs text-slate-500 font-bold uppercase">Labour Sentiment</p>
+                <p class="text-2xl font-bold mono">0.12 <span class="text-xs font-normal text-slate-500 ml-1">(Very Negative)</span></p>
+            </div>
+            <div class="glass-panel p-4 border-t-2 border-emerald-500">
+                <p class="text-xs text-slate-500 font-bold uppercase">Peak Deficit Est.</p>
+                <p class="text-2xl font-bold mono">4.2 GW</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left: Convergence Analysis -->
+            <div class="lg:col-span-5 space-y-4">
+                <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest px-2">Signal Analysis (Deep Dive)</h2>
+                
+                <!-- Signal 1 -->
+                <div class="glass-panel p-5 relative overflow-hidden">
+                    <div class="scanner-line"></div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center"><span class="indicator-dot bg-blue-500"></span><span class="text-xs font-bold uppercase">Pithead Inventory (Depot)</span></div>
+                        <span class="text-[10px] text-slate-500 mono">Source: Sat-IR Imagery</span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Thermal plants in the Asansol belt (DVC/NTPC) show <strong class="text-white">critical depletion</strong>. Infrared signatures confirm stockpile volume at <span class="text-red-400">420k metric tonnes</span> vs required 1.2M. Replenishment rate is currently lagging consumption by 18% daily.
+                    </p>
+                </div>
+
+                <!-- Signal 2 -->
+                <div class="glass-panel p-5">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center"><span class="indicator-dot bg-orange-500"></span><span class="text-xs font-bold uppercase">Logistics Friction (Rail)</span></div>
+                        <span class="text-[10px] text-slate-500 mono">Source: IoT/RFID Sensors</span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        RFID data at <strong class="text-white">Andal Rail Yard</strong> indicates a queue of 22 rakes stranded. Turn-Around Time (TAT) has ballooned to 118 hours due to signaling failures and engine shortages at the Dhanbad division.
+                    </p>
+                </div>
+
+                <!-- Signal 3 -->
+                <div class="glass-panel p-5 risk-glow-red">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center"><span class="indicator-dot bg-red-500 animate-pulse"></span><span class="text-xs font-bold uppercase text-red-400 font-black">Labour Trigger (Primary Risk)</span></div>
+                        <span class="text-[10px] text-slate-500 mono">Source: Social/Union NLP</span>
+                    </div>
+                    <p class="text-sm text-slate-100 leading-relaxed">
+                        NLP analysis of union forums shows <strong class="text-white">94% strike probability</strong> for Monday shift. Specific grievances target "Outsourcing of Coking Coal Washing." Total extraction expected to drop from 180k to 45k TPD.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right: Prediction Graph -->
+            <div class="lg:col-span-7 glass-panel p-6 flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">Predictive Shortage Timeline</h2>
+                    <div class="text-right">
+                        <p class="text-[10px] text-slate-500 font-bold uppercase">Estimated Impact Date</p>
+                        <p class="text-sm font-bold text-red-500 mono">April 11 - 14, 2026</p>
+                    </div>
+                </div>
+                
+                <div class="flex-1 min-h-[350px]">
+                    <canvas id="predictionChart"></canvas>
+                </div>
+
+                <div class="mt-4 p-4 bg-slate-900/50 rounded-lg border border-slate-700">
+                    <h4 class="text-xs font-bold uppercase text-slate-500 mb-2">AI Summary Recommendation</h4>
+                    <p class="text-xs text-slate-400 italic">"Based on signal convergence, Grid ER should initiate emergency power purchase agreements (PPA) with Southern Region (SR) gas plants within 24 hours to mitigate a 4.2 GW shortfall predicted for next weekend."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div class="glass-panel p-4">
+                <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Affected Thermal Units</p>
+                <p class="text-xl font-bold text-white">12 Units (8,400 MW)</p>
+            </div>
+            <div class="glass-panel p-4">
+                <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Evacuation Bottleneck</p>
+                <p class="text-xl font-bold text-white">Adra-Asansol-Dhanbad Axis</p>
+            </div>
+            <div class="glass-panel p-4">
+                <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Last Data Refresh</p>
+                <p class="text-xl font-bold text-emerald-500 mono">Apr 03, 22:44:12</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('predictionChart').getContext('2d');
+        
+        // Simulation of the April 2026 Coal Shortage Event
+        const labels = Array.from({length: 20}, (_, i) => `Apr ${i + 1}`);
+        
+        // Stockpile levels (Days of inventory) - dropping from 14 to 2
+        const stockData = [14.2, 13.8, 13.2, 12.1, 11.4, 10.2, 9.8, 8.5, 7.8, 6.4, 5.2, 4.5, 3.1, 2.4, 1.8, 1.1, 0.5, 0.4, 0.2, 0.1];
+        
+        // Supply Risk Prob (%) - spiking as signals converge
+        const riskData = [5, 8, 12, 18, 22, 35, 42, 58, 65, 87, 92, 95, 98, 99, 100, 100, 100, 100, 100, 100];
+
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Inventory (Days)',
+                        data: stockData,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.05)',
+                        borderWidth: 4,
+                        fill: true,
+                        tension: 0.3,
+                        yAxisID: 'y',
+                        pointRadius: 2
+                    },
+                    {
+                        label: 'Shortage Probability (%)',
+                        data: riskData,
+                        borderColor: '#ef4444',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.3,
+                        yAxisID: 'y1',
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#64748b', font: { size: 10 } }
+                    },
+                    y: {
+                        position: 'left',
+                        min: 0,
+                        max: 15,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#3b82f6' }
+                    },
+                    y1: {
+                        position: 'right',
+                        min: 0,
+                        max: 100,
+                        grid: { display: false },
+                        ticks: { color: '#ef4444' }
+                    }
+                }
+            }
+        });
+
+        // Current Marker for April 3
+        const originalDraw = Chart.controllers.line.prototype.draw;
+        Chart.helpers.extend(Chart.controllers.line.prototype, {
+            draw: function() {
+                originalDraw.apply(this, arguments);
+                const chart = this.chart;
+                const ctx = chart.ctx;
+                const x = chart.scales.x.getPixelForValue('Apr 3');
+                
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(x, chart.scales.y.top);
+                ctx.lineTo(x, chart.scales.y.bottom);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.setLineDash([5, 5]);
+                ctx.stroke();
+                ctx.restore();
+            }
+        });
+    </script>
+</body>
+</html>
+
+```
